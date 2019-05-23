@@ -24,6 +24,7 @@
 # include <stdio.h>
 # include <ctype.h>
 # include <pwd.h>
+# include <string.h>
 # include <time.h>
 
 # include "csp_types.h"
@@ -66,10 +67,11 @@ extern int strncmp (const char *, const char *, size_t);
 extern time_t time (time_t *);
 extern uid_t getuid (void);
 
-int force_update_status (void);
+void force_update_status (void);
 int put_status (void);
 char *print_time (long);
 
+void
 update_status (void)
 {
 long present;
@@ -80,6 +82,7 @@ long present;
 	force_update_status ();
 }
 
+void
 force_update_status (void)
 {
 char *getbuf;

@@ -14,6 +14,7 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <ctype.h>
+# include <string.h>
 
 # include "args.h"
 # include "str.h"

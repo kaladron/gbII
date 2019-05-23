@@ -16,6 +16,7 @@
 # include "gb.h"
 
 # include <stdio.h>
+# include <string.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <ctype.h>
@@ -41,10 +42,10 @@ extern int fclose (FILE *);
 extern int fprintf (FILE *, const char *, ...);
 extern int system (const char *);
 extern time_t time (time_t *);
-int expand_file (char *fname);
+void expand_file (char *fname);
 int load_init_file (FILE *fd);
-int load_predefined (char *fname);
-int log_file (char *args);
+void load_predefined (char *fname);
+void log_file (char *args);
 
 /*
  * loadf: Has several functions.
@@ -246,6 +247,7 @@ int flag = 0;
  * Loads the file .gbrc in users $HOME if present and executes
  * line by line.
  */
+void
 load_predefined (char *fname)
 {
 FILE *fd;
@@ -308,6 +310,7 @@ char rbuf[MAXSIZ];
 /*
  * if no filename is given, then gb.log in $HOME is used.
  */
+void
 log_file (char *args)
 {
 long clk;
@@ -405,6 +408,7 @@ struct stat statbuf;
  * If ~/ is the first part of the file string, it expands
  * to the users $HOME. Other wise it is left alone.
  */
+void
 expand_file (char *fname)
 {
 char *env;

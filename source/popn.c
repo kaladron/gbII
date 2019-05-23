@@ -17,6 +17,7 @@
 # include <ctype.h>
 # include <malloc.h>
 # include <math.h>
+# include <string.h>
 
 # include "csp.h"
 # include "str.h"
@@ -51,9 +52,10 @@ extern int kill_socket_output;
 
 extern int atoi (const char *);
 extern int sscanf (const char *, const char *, ...);
-int handle_popn (void);
+void handle_popn (void);
 
 # ifdef POPN
+void
 popn_input (int comm_num, char *procbuf)
 {
 
@@ -92,6 +94,7 @@ int doing_popn_command (void)
 }
 # endif
 
+void
 cmd_popn (char *args)
 {
 # ifdef POPN
@@ -203,6 +206,7 @@ char ch;
 }	
 
 # ifdef POPN
+void
 handle_popn (void)
 {
 Sector *p;

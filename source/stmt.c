@@ -46,11 +46,12 @@ extern time_t time (time_t *);
 Loop *find_loop (char *name);
 int add_loop (char *cmd, long int timel, int user_defn);
 int analyze_cndtl (char *s);
-int cmd_listloop (char *args);
+void cmd_listloop (char *args);
 int loop_update_index (void);
 int loop_update_time (void);
 int remove_loop (char *cmd_name);
 
+void
 cmd_loop (char *args)
 {
 char timebuf[SMABUF];
@@ -192,6 +193,7 @@ int val;
 	return (TRUE);
 }
 
+void
 cmd_listloop (char *args)
 {
 Loop *p = loop_info.head;
@@ -237,6 +239,7 @@ Loop *p = loop_info.head;
 	return ((Loop *) p);
 }
 
+void
 handle_loop (void)
 {
 long cur_time;

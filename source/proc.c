@@ -16,6 +16,7 @@
 # include <sys/resource.h>
 # include <sys/types.h>
 # include <sys/wait.h>		/* for WNOHANG */
+# include <string.h>
 # include <signal.h>
 
 # ifdef AIX
@@ -240,6 +241,7 @@ char *q;
 # endif
 }
 
+void
 read_process (fd_set rd)
 {
 char buf[PIPEBUF+1];

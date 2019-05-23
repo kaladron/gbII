@@ -105,16 +105,16 @@ extern int dup (int);
 /* extern int send (int, const void *, int, unsigned int); */
 extern long unsigned int inet_addr (/* ??? */);
 
-int check_for_special_formatting (char *s, int type);
+void check_for_special_formatting (char *s, int type);
 int close_gb (void);
 int have_socket_output (void);
 void loggedin (void);
 int on_endprompt (int eprompt);
-int parse_socket_output (char *s);
-int process_gb (char *s);
-int send_gb (char *s, int len);
+void parse_socket_output (char *s);
+void process_gb (char *s);
+void send_gb (char *s, int len);
 int sendgb (char *buf, int len);
-int set_no_logout (void);
+void set_no_logout (void);
 void process_socket (char *s);
 void socket_final_process (char *s, int type);
 void chap_response (char *line);
@@ -179,6 +179,7 @@ int is_connected (void)
 /*
  * Handles the reading from the buffer and the processing of socket output
  */
+void
 get_socket (void)
 {
   char *gbbuf;
@@ -206,6 +207,7 @@ get_socket (void)
 /*
  * Take the given string and process it as socket output
  */
+void
 process_gb (char *s)
 {
   char *p;
@@ -415,6 +417,7 @@ void socket_final_process (char *s, int type)
 /*
  * used for finding simple matches and setting the appropriate markers.
  */
+void
 parse_socket_output (char *s)
 {
 char dmbuf[MAXSIZ];
@@ -794,6 +797,7 @@ void init_endprompt_connect (void)
 /*
  * send to the socket
  */
+void
 send_gb (char *s, int len)
 {
 int error;
@@ -893,6 +897,7 @@ scroll_output_window (void)
   }
 }
 
+void
 cmd_connect (char *s)
 {
   Game *p = (Game *) NULL;
@@ -1027,11 +1032,13 @@ set_values_on_end_prompt (void)
   kill_client_output = FALSE;
 }
 
+void
 set_no_logout (void)
 {
   last_no_logout_time = time (0);
 }
 
+void
 check_no_logout (void)
 {
 long now;
@@ -1065,6 +1072,7 @@ static char scopebuf[BUFSIZ];
   return (scopebuf);
 }
 
+void
 check_for_special_formatting (char *s, int type)
 {
 char *p;
@@ -1228,6 +1236,7 @@ extern char *entry_quote;
   more_val.num_lines_scrolled = 0;
 }
 
+void
 cmd_ping (char *s)
 {
 Game *p = (Game *) NULL;

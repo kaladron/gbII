@@ -12,6 +12,7 @@
 # include "gb.h"
 
 # include <stdio.h>
+# include <string.h>
 # include <sys/types.h>
 # include <memory.h>
 
