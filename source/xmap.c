@@ -14,6 +14,7 @@
 #ifdef XMAP
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
 #include <math.h>
@@ -114,14 +115,9 @@ static xMap xcur_map = {0, 0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, (xSector *) NULL};
 
 extern char *build_scope();
-extern char *malloc(int);
-extern int  atoi(const char *);
 extern int  csp_send_request(int, char *);
-extern int  fprintf(FILE *, const char *, ...);
-extern int  free(void *);
 extern int  process_key(char *, int);
 extern int  send_gb(char *, int);
-extern int  sscanf(const char *, const char *, ...);
 extern void add_history(char *);
 extern void add_recall(char *, int);
 extern void msg (char *, ...);

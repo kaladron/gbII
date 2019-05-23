@@ -25,7 +25,7 @@ CC = gcc
 #CC = cc
 
 # Compiler options. -g is for debugging, and -O is optimization
-CFLAGS =  -g ${XINC}
+CFLAGS =  -g ${XINC} -Wno-implicit-function-declaration -Wno-implicit-int
 #CFLAGS = -O
 
 # Libraries needed for compiling
@@ -87,3 +87,8 @@ util.o:     gb.h args.h str.h vars.h
 # special case for Xmap.. need to include some stuff.
 xmap.o:     gb.h xmap.h vars.h
 	$(CC) ${CFLAGS} ${XINC} -c xmap.c
+
+clean:
+	-rm -f ${COBJS} ${FILENAME}
+
+.PHONE: clean

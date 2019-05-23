@@ -1,6 +1,9 @@
 /* MD5.C - RSA Data Security, Inc., MD5 message-digest algorithm
  */
 
+#include <stdio.h>
+#include <string.h>
+
 /* Copyright (C) 1991-2, RSA Data Security, Inc. Created 1991. All
 rights reserved.
 

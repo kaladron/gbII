@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <malloc.h>
+# include <string.h>
 
 # include "args.h"
 # include "str.h"
@@ -117,16 +118,16 @@ extern int fprintf (FILE *, const char *, ...);
 extern int sscanf (const char *, const char *, ...);
 extern int strncmp (const char *, const char *, size_t);
 int add_game (char *nick, char *host, char *port, char *type, char *racename, char *pripasswd, char *govname, char *secpasswd);
-int add_queue (char *args, int wait);
-int cmd_listdef (char *args);
-int cmd_listgag (char *args);
-int cmd_listgame (void);
-int cmd_ungag (char *name);
-int cmd_ungame (char *args);
-int def_update_index (void);
-int gag_update_index (void);
-int game_update_index (void);
-int remove_macro (char *name);
+void add_queue (char *args, int wait);
+void cmd_listdef (char *args);
+void cmd_listgag (char *args);
+void cmd_listgame (void);
+void cmd_ungag (char *name);
+void cmd_ungame (char *args);
+void def_update_index (void);
+void gag_update_index (void);
+void game_update_index (void);
+void remove_macro (char *name);
 
 int match_gag (char *pat)
 {
@@ -139,6 +140,7 @@ Gag *p;
   return (0);
 }
 
+void
 cmd_gag (char *args)
 {
 Gag *p;
@@ -184,6 +186,7 @@ char temp[SMABUF];
 /*
  * remove gag node from gag list by name
  */
+void
 cmd_ungag (char *name)      /* formerly remove_gag */
            
 {
@@ -230,6 +233,7 @@ int val = 0;
 /*
  * list gags by name.
  */
+void
 cmd_listgag (char *args)
 {
 Gag *p;
@@ -248,6 +252,7 @@ int i = 1;
   msg ("-- End of gag list.");
 }
 
+void
 gag_update_index (void)
 {
 Gag *p;
@@ -259,6 +264,7 @@ int i = 1;
     p->indx = i++;
 }
 
+void
 save_gags (FILE *fd)
 {
 Gag *p;
@@ -303,6 +309,7 @@ Gag *p;
  * adds one line of len to the history list.
  * removing a node if necessary
  */
+void
 add_history (char *line)
 {
 
@@ -403,6 +410,7 @@ Node *temp;
 /*
  * recalls lines n to m from recall buffer
  */
+void
 recall_n_m (int n, int m, int type)
 {
 int dist;
@@ -443,6 +451,7 @@ Node *p;
 /*
  * adds line to the recall list and maintains num_recall nodes.
  */
+void
 add_recall (char *line, int type)
            
              /* 0 is normal, 1/2 is broad/announce */
@@ -498,6 +507,7 @@ Node *p;
  * only affects last command and displays "Modifier failed."
  * on a no match.
  */
+void
 history_sub (char *args)
 {
 char *p;
@@ -555,6 +565,7 @@ int val;
  * place a macro on the list with corresponding action.
  * a null action will erase the name macro from the list
  */
+void
 cmd_def (char *args)
            
 /*
@@ -701,6 +712,7 @@ int val = 0;
 /*
  * remove macro node from macro list by name
  */
+void
 remove_macro (char *name)
 {
 Macro *p;
@@ -776,6 +788,7 @@ char *name = named;
 /*
  * list macros by name.
  */
+void
 cmd_listdef (char *args)
 {
 Macro *p;
@@ -794,6 +807,7 @@ int i = 1;
   msg ("-- End of aliases listing.");
 }
 
+void
 def_update_index (void)
 {
 Macro *p;
@@ -806,6 +820,7 @@ int i = 1;
       p->indx = i++;
 }
 
+void
 save_defs (FILE *fd)
 {
 Macro *p;
@@ -837,6 +852,7 @@ Macro *p;
 /*
  * preps a line for possible adding to game list.
  */
+void
 cmd_game (char *args)
 {
   char nick[BUFSIZ];
@@ -989,6 +1005,7 @@ add_game (char *nick, char *host, char *port, char *type,
   game_update_index ();
 }
 
+void
 cmd_ungame (char *args)
 {
 Game *p;
@@ -1045,6 +1062,7 @@ Game *gp = game_head;
 /*
  * lists the games in the list
  */
+void
 cmd_listgame (void)
 {
 Game *p = game_head;
@@ -1064,6 +1082,7 @@ int i = 1;
   msg ("-- End games list.");
 }
 
+void
 game_update_index (void)
 {
 Game *p;
@@ -1079,6 +1098,7 @@ int i = 1;
  * Saves the current listing of games in a readable format by loadf
  * to the file descriptor provided to the function.
  */
+void
 save_games (FILE *fd)
 {
 Game *p = game_head;
@@ -1121,6 +1141,7 @@ send_password (void)
 /*
  * adds a line to the queue list for later processing.
  */
+void
 add_queue (char *args, int wait)
 {
 Node *p;
@@ -1153,6 +1174,7 @@ char *ptr = args;
 /*
  * removes the first item in the queue and returns it in args
  */
+void
 remove_queue (char *args)
 {
 Node *p = queue_tail;

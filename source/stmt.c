@@ -16,6 +16,7 @@
 # include <sys/time.h>
 # include <ctype.h>
 # include <malloc.h>
+# include <string.h>
 
 # include "args.h"
 # include "str.h"

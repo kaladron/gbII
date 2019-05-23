@@ -13,6 +13,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 # include <sys/types.h>
 # ifdef SYSV
 # include <termio.h>
@@ -108,7 +109,7 @@ int term_clear (int l1, int l2);
 int term_move_cursor (int x, int y);
 int term_null (void *);
 int term_param_ALDL_scroll (int l1, int l2, int n);
-int term_put_termstring (char *c);
+void term_put_termstring (char *c);
 int term_putchar (char c);
 void term_boldface_off (void);
 void term_boldface_on (void);
@@ -473,6 +474,7 @@ void term_boldface_off (void)
 	boldface = FALSE;
 }
 
+void
 term_put_termstring (char *c)
 {
 	if (*c == '\0') return;		/* bug somewhere */

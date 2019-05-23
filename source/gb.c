@@ -21,6 +21,7 @@
 # include <ctype.h>
 # include <memory.h>
 # include <pwd.h>
+# include <wchar.h>
 
 # ifdef __hpux
 # include <unistd.h>
@@ -173,7 +174,7 @@ extern Display *mdpy;
 extern widget *trv;
 # endif
 
-int gbs (void);
+void gbs (void);
 
 extern char *getenv (const char *);
 extern char *getlogin (void);
@@ -599,6 +600,7 @@ main (int argc, char **argv)
  * Nitty gritty. Handles the choices between reading keyboard,
  * and socket.
  */
+void
 gbs (void)
 {
   int count;

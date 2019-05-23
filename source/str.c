@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <malloc.h>
 # include <stdarg.h>
+# include <string.h>
 
 # include "term.h"
 # include "option.h"
@@ -65,7 +66,7 @@ extern int strncmp (const char *, const char *, size_t);
 extern int toupper (int);
 extern time_t time (time_t *);
 int add_refresh_line (char *s, int cnt);
-int display_msg (char *s);
+void display_msg (char *s);
 int more (void);
 int place_string_on_output_window (char *str, int len);
 int set_column_maker (int width);
@@ -513,6 +514,7 @@ char *p;
 }
 
 
+void
 display_msg (char *s)
 {
 char store[MAXSIZ];
@@ -696,6 +698,7 @@ static char tdbuf[400];
   	return (s = tdbuf);
 }
 
+void
 remove_space_at_end (char *s)
 {
 char *p = s;

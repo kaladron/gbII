@@ -19,26 +19,6 @@
 # define signal	sigset
 # endif
 
-# ifdef USE_INDEX
-
-extern char *index (const char *, int);
-extern char *rindex (const char *, int);
-extern void bcopy (const void *, void *, int);
-extern void bzero (void *, int);
-
-#define strchr(s,c)     index ((s), (int) (c))
-#define strrchr(s,c)    rindex ((s), (int) (c))
-#define memcpy(s1,s2,n) bcopy((s2), (s1), (n))
-#define memset(s,l)     bzero((s), 0, (l))
-
-# else
-
-extern char *strchr (const char *, int);
-extern char *strrchr (const char *, int);
-
-# endif
-/* USE_INDEX */
-
 # ifndef _CLIENT_TYPES_H_
 # include "types.h"
 
