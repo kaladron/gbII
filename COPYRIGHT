@@ -1,0 +1,26 @@
+GB II is copyright (c) 1990, 1991, 1992, and 1993 by Evan D. Koffler.
+You have the right to copy, compile, and maintain this software.
+You also have the right to make modifications to this code for local 
+use only.  You may mail any such modifcations or ideas to
+evank@netcom.com for consideration for inclusion in the released code.  
+
+In particular, the plot_orbit function in map.c were written by
+Robert P. Chansky, and modified for this software's purposes. 
+
+In particular, the opttech functions, algorithms, and methodology was
+written in C by Magnus Nilsson <mange@lysator.liu.se>, and modified
+for this software's purposes. The copyright header in opt_tech.c is as
+follows:
+
+/* Galactic Bloodshed tech (R&D) optimizer.                                */
+/* Creates a source to be used by gb from the output of the status command */
+/* (c) 1991 Magnus Nilsson, Lysator Computer Club, Linkoping, Sweden.      */
+/*          mange@lysator.liu.se                                           */
+/* With special thanks to the author of the opt_tech perlscript, who gave  */
+/* me the idea of writing this after having to wait for the optimizer to   */
+/* work on my 80 planet 25000 investment empire :)                         */
+
+This software is provided "as is" and without any express or
+implied warranties, including, without limitation, the implied
+warranties of merchantibility and fitness for a particular
+purpose.

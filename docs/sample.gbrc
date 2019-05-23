@@ -1,0 +1,55 @@
+#
+# sample.gbrc: a sample .gbrc file to help new users get started on
+#	       creating their own. Although the savef command will 
+#	       overwrite this. So, this will help users get an idea
+#	       of what settings they might want in their .gbrc
+#
+# This is a 'normal' .gbrc located in $HOME.
+#
+# Written By Evan D. Koffler <evank@netcom.com>
+#
+# Copyright(c) 1991, 1992
+# For full  copyright information, see the file COPYRIGHT included
+# with this package.
+#
+
+# set display off turns off the 'messages' displayed normally by the client
+# commands, but we don't want to see them every time we run gbII
+set display off
+
+
+# I'd like to automagically (autologin) login upon booting gbII up
+set autologin
+
+# The set recall resets the recall to a slightly higher value than is default.
+set recall 500
+
+# And the crypt a test sets a test encryption key. Use cr a <message> to send.
+crypt a test
+
+# The game create a nick name and associates the host, port, and password
+# to that game nick name.
+game hapIII morticia.cnns.unt.edu 2010 guest
+
+# Note.. this game has race/gov passwords which requires 5 fields
+# instead of the previous 4
+game pooh pooh.caltech.edu 2010 guest 0
+
+# A few other normal default settings here.
+set more on
+set hide_end_prompt on
+set map space
+set map double
+set encrypt on
+set show_mail on
+set show_clock on
+set display_from_top on
+
+# A few assign values to make older $ variables work.
+# namely $b and $l and $S
+assign b $builtship
+assign l $lotnum
+assign S $scope
+
+# We are done with the file.. so let's turn displaying back on.
+set display on

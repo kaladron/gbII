@@ -1,0 +1,28 @@
+gbII 2.6.0 (Released: 03/01/05)
+
+  Started with gbII client version 2.5.4 as a codebase. -mfw
+
+  New Features:
+
+  + Implemented CHAP (Challenge Handshake Authentication Protocol) method, if
+    the server is running CHAP plain-text passwords will not be passed across
+    the network. Passwords are MD5 now.
+  + Applied XMAP patch and added commands to activate and deactivate it.
+  + Added CSP orbit functionality (some CSP format changes for this).
+  + Integrated psmap code, dumps to file and/or displays using ghostview.
+  + Added CSP_PAUSE (pauses display scrolling)
+  + Wrote fuse command, gets data via CSP_SHIPDUMP_STATUS and can plot the
+    results using gnuplot.
+  + Now supports ANSI color (set ansi on).
+  + Changes to 'setup' to handle Linux and ask about XMAP.
+  + Added emote type to cr, loadf, and proc commands.
+
+  Bug Fixes:
+
+  + fixed (I think), multiple login attempts and failures, was dying after 2nd
+    login attempt wether or not the password was correct.
+  + fixed handling of nova and mirror array.
+  + appending newline in gbsend() now, no need for extra gb_send("\n")
+  + changes to handling of racegen connections
+  + fixed multiple socket descriptor bug when using 'connect' in .gbrc
+

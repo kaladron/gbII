@@ -1,0 +1,188 @@
+XMAP is an interactive planet and orbit mapping utility for use with the
+GBII client.  It provides mousing controls for surveying, moving civilians
+and troops, buttons for performing analysis, survey, and report, and a
+simple graphing function for fertility, resources, efficiency, mobility,
+troop concentrations, population concentrations, and maximum population.
+
+This version of XMAP is based on the version 2.1.0 released by Scott
+Anderson (sander@engin.umich.edu) as modified by Rich Fitzgerald
+(fitz@rsj.harvard.edu).  XMAP is provided on an as-is basis, free of
+charge, by me. No warranty, express or implied, is provided. You are free
+to modify the source in any manner; I do ask that you send additions to
+me before posting them in the public domain.
+
+This version of XMAP was developed on a Sun b/w SPARCstation SLC running
+SunOS 4.1.1 and X11R4, and tested on an xterminal connected to a
+DECsystem 5000 running ULTRIX 4.2A (Rev. 47) and X11R5. I make no claims
+about it working on other systems... :)
+
+XMAP can be incorporated into the GBII client by answering appropriately
+when running the client setup program.  To install manually, include the
+line
+#define XMAP
+in the file gb.h, and make sure in the Makefile that the XLIBS line reads
+XLIBS = -lX11 -L/usr/lib/X11
+(use the appropriate location for your X libraries).
+
+STARTING XMAP:
+   XMAP starts automagically with gbII.  A separate x window will be created
+for displaying maps.  To put a map in the window, just use the 'map' command
+like normal.  XMAP intercepts the map data and formats it in the XMAP window.
+Similarly, data from the 'orbit' command is also intercepted and
+displayed.
+
+THE XMAP WINDOW:
+   Left side:	Sector indicator.
+		Mapping panel: XMAP toggle, remap, map.
+		Info panel: analysis, survey, report.
+		CD panel: CD .., CD /, CD Home, CD Here.  (CD Here
+		does not appear until after the first map/orbit
+		request.)
+   Top:		Input window. Contains '> ^' prompt.
+   Right side:	Graph panel: graph toggle button and graph selection buttons.
+		(These do not appear until you map your first planet.)
+		Orbit panel: display select, reverse orbit, zoom out.
+		(These do not appear until you map your first orbit, and
+		zoom out does not appear unless you've zoomed it.)
+   Bottom:     Planet and current sector data.
+   Middle:     Area where planet maps and orbits are shown.
+
+THE INPUT WINDOW:
+   The long rectangle at the top of the XMAP window is the input window. 
+Any printable characters that you type while the mouse pointer is within
+the XMAP window will appear here.
+   You can use the backspace or delete keys to erase characters.
+   The RETURN key will send whatever is in the input window to the client 
+for processing like any command typed at the command line.
+   The ESCAPE key will clear the input window.
+   Clicking on any mouse button within the window will move the text
+insertion point to the current mouse position.  (Still a bit crude.)
+   Several actions and buttons use the input window for arguments, including
+civ/troop movements and the survey/analysis/report buttons.
+   
+XMAP TOGGLE, RE-MAP and MAP BUTTONS:
+   The top left button allows you to set what maps are displayed in the XMAP
+window.  The current setting is shown in the button; clicking on the button
+will cycle through the options.  The possible settings are XMap On (planet
+maps and orbits), XMap Off (nothing - everything is sent to the terminal
+window), Maps Only, and Orbits Only.  XMAP has problems displaying planets
+with width greater than 36 in its default window size.  Turning of the display
+of planet maps will allow you to view maps of such planets in your terminal
+window.  It also allows you to look at two maps at once.
+   The RE-MAP button redraws the current planet or orbit no matter what
+scope you are in. The MAP button maps the current scope.
+
+SURVEY, ANALYSIS, REPORT BUTTONS:
+   These buttons perform their respective actions upon the scope
+currently shown in the XMAP window. SURVEY performs a global survey, 
+ANALYSIS does a sector analysis, and REPORT reports all ships.
+   If you have typed something in the input window, the contents of the
+input window are sent as arguments to the SURVEY, ANALYSIS, and REPORT
+buttons. For example, typing '-16' and then pressing the ANALYSIS button
+will perform 'analysis -16'. Typing 'sd=' and then pressing the REPORT
+button will perform 'report sd='. 
+
+CD BUTTONS:
+   These buttons are pretty self-explanatory.  CD .. moves up one level
+in scope, CD / goes to universal scope, CD Home goes to your default
+scope, and CD Here goes to the currently displayed scope.
+
+PLANET MAPS:
+   When mapping planets, XMAP displays several planet stats in the
+bottom panel: resources, fuel, destruct, population, max. population,
+and toxicity.  (Note that several things are not currently displayed,
+such as enslaved status, compatibility, and crystal stocks.  These,
+however, do still appear with the rest of the planet info in the terminal
+window.)  When moving the mouse pointer around, the stats of the sector
+being pointed to are also shown in the bottom panel, as well as information
+on up to 10 ships landed in that sector.  Sectors you own have a black
+background; those not owned by you have a white background (note that the
+'toggle highlight' setting on the server is currently ignored).
+
+SURVEYING:
+   The left mouse button is the survey button. Point to a sector and click
+the left mouse button to get the survey data for that sector. If you want
+survey data for a range of sectors, click on one of the corner sectors of
+the desired range, *hold* the mouse button down, and drag the pointer to
+the opposite corner. A line box will follow the pointer, showing you which
+sectors are being highlighted. Release the mouse button to get the survey
+for that range.
+   While performing a range survey, the Current Sector window in the upper
+left corner of the XMAP window will show the selected range.
+   Surveying also allows you to update the XMAP information on the
+selected sectors.  You may need to do this after executing commands that
+change the status of sectors, such as landing or launching ships or moving
+population around via commands instead of using XMAP (see below).
+
+MOVING CIVS and TROOPS:
+   The middle mouse button controls civilian movement and the right button
+controls troop movement. Click and hold the proper mouse button on the 
+sector you wish to move the civs/troops *from*, drag the pointer to the 
+destination sector, and release the button to move the civs/troops.
+Note that by dragging the pointer off the left or right side you can
+wrap horizontally, thereby moving civs/troops to the other side of the
+planet.
+   If you have not typed anything in the input window, the default is to
+move 2 civ/troop. (You can modify the defaults by changing the appropriate
+values in xmap.h.)  Otherwise, whatever is in the input window is taken
+as the number of civs/troops to move.  Notice that you can only move one
+sector at a time; look for multiple moves in the future.
+
+GRAPHING:
+   XMAP can perform graphing of values for fertility, resources, efficiency,
+mobility, troop concentrations, population density, and maximum population.
+This is done by replacing the sector designations (usually a sector type,
+ship type, or race number) with a scale of 0 to 9 (0 low, 9 high) that
+represents the concentration in each sector of the current graph type.
+   To enter graphing mode, click on the GRAPH button in the upper right
+corner of the window. Nothing will happen unless a graph type is chosen by
+clicking on one of the buttons below the GRAPH button. Once a graph type
+has been chosen, the sector map will be replaced by a map of the same
+size and format, but with a number 0 through 9 in each sector, representing
+the relative value of the chosen graph type. 
+   When not in graphing mode, XMAP displays for each sector troops if present,
+or ships if present, or geography if neither are present.  You can view
+geography everywhere by selecting the GEOGRAPHY button while in graphing mode.
+   Clicking on the GRAPH button once again will return to sector map mode.
+   All other functions still work in graph mode, including surveys, moving
+civs/troops, etc.
+
+
+XORBIT:
+   When the first orbit is displayed, the orbit panel appears in the
+lower right corner.  Note that the program has some problems identifying
+requested orbit scopes.  Thus with commands like 'orbit /star' or 'map
+..' (at planet scope), the display MIGHT NOT be identified correctly, in
+which case buttons like CD Here and RE-MAP will NOT work properly.  
+   The orbit display button allows you to display everything, only
+ships, or only stars and planets.  The current setting is displayed.
+Clicking on it with any mouse button will cycle through to the next
+setting.
+   Because some objects in the orbit display may be written on top of
+others, the REVERSE ORBIT button lets you reverse the order in which
+things are displayed.
+
+ZOOMING:
+   When an orbit map is displayed, you can zoom in on a particular area
+by moving the mouse pointer to one corner of the area you want and
+depressing any button.  While holding the button down, drag the mouse
+pointer to the opposite corner (a box appears showing the area to be
+magnified) and release the button.
+   You can also change the zoom by typing a number and clicking on the
+ZOOM button.  The center of the field of view will not change, but the
+zoom will increase by the factor you've entered.
+   To return to full view, click with any mouse button on the ZOOM button.
+
+FIXES, ADDITIONS:
+see the files xmap.h and CHANGES.XMAP.
+
+KNOWN BUGS, OMISSIONS:
+toggle highlight setting ignored for maps.
+orbit scopes not always properly identified.
+see TODO.XMAP
+
+Let me know if you have problems with XMAP on your system, and anything
+that you would like to see added.
+
+Rich Fitzgerald
+fitz@rsj.harvard.edu

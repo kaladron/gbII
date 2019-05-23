@@ -1,0 +1,489 @@
+------------------------------------------------------------------------
+CLIENT - SERVER PROTOCOL (CSP) Data File for GB+ (A product of GBDT)
+------------------------------------------------------------------------
+Started by: Evan Koffler <evank@netcom.com>
+On: Sat Jan 23 19:42:09 PST 1993
+------------------------------------------------------------------------
+Modification History:
+    Sun Jan 31 05:52:24 EST 1993 JPD/EK
+	
+		Added csp.h file (included)
+		Server based version information (CSP #10-11)
+
+------------------------------------------------------------------------
+
+This file is to explain the client <-> server protocols that
+have developed over the past few years of me (Evan Koffler)
+working on the client and server.
+
+First off, the server should NEVER make a ship with the letter
+\ or |. These 2 characters are reserved for client-server protocol
+(hereafter referred to as CSP).
+
+To introduce a NEW CSP or to change an existing CSP, PLEASE POST
+all relevant information on the appropriate newsgroup (alt.games.gb)
+currently and if a client or server developers mail list exist then
+send a message to them as well. Allow enough time to pass for discussion
+about the appropriateness of the arguments in the command output
+and then add the information to this file. This helps prevent
+frequent changes to the commands and informs all client developers
+of any changes they may need to cope with in the future. The road
+has been paved so far for you, continue to pave it for those who
+follow.
+
+------------------------------------------------------------------------
+The server MUST end any line with a newline. (\n)
+Newline-carriage return (\n\r) is NOT recommended. It adds
+more problems than it solves. And not having one does not allow
+for easy delimiting of lines and information.
+
+------------------------------------------------------------------------
+GB+ login format is:
+Enter Password <race> <gov>:
+
+Upon a failure due to a wrong password, it displays:
+Invalid: Bad Password.
+
+and redisplays the Enter Password <race> <gov>:
+
+If you are already on, it says:
+Invalid: Player already logged on!
+
+and redisplays the Enter Password <race> <gov>:
+
+------------------------------------------------------------------------
+The standard format for the numeric protocol is:
+
+<client char> <number> [<arg1> <arg2> ..... <argn>]
+
+The client character is:    |	(as defined by CSP_CLIENT)
+While the <number> should be distinct ranges. That is, a command
+uses 101 then, the next one should be at 150 or even 200
+so that there is room to grow, and there is no confusion for
+the commands. For the format, using the #define name is appropriate.
+
+------------------------------------------------------------------------
+Format of this file
+
+Each CSP range should be presented in the following format.
+
+Command name: <command>
+Response Range: X-Y
+Input formats:
+	<command> <arguments or options> (X-Y responses for command)
+	<command> <another way of getting information> (X-Y responses)
+
+Output formats:
+X format: "scanf/printf format. preferably the scanf format so the
+client can be modified to read it easily by copying the line"
+
+------------------------------------------------------------------------
+At present there are 2 commands that were old server formats
+that do not follow this format. The two commands are map and orbit.
+The format for them follows.
+
+Map:
+$<Planet Name>;<X>;<Y>;<SHOW>;<sector info>
+
+The $ in position 0 denotes this is a map command.
+<Planet Name> is a string ending in a ;.
+<X> is the width of the planet.
+<Y> is the height of the planet.
+<SHOW> is unused.
+<sector info> is a single digit number followed by a character.
+The digit means 1 of 2 things, depending if the toggle color option
+is set on the server.  If color is NOT set, then the digit will
+be either a 1 or a 0 if you own or do not own the sector. If color
+is set then it will be a unique number for coloring the sector.
+After the color/ownership information comes the actual character
+to be used to represent this sector.  The sector info continues for
+X * Y pairs of sectors.
+
+Example:
+$Test;2;2;1*1*0^0^
+This planet is named Test, is a 2 x 2 planet. You own the
+first 2 sectors, which are land, and do not own the 2 mtn sectors
+below. (assuming color is off).
+Map in a working client would display:
+     'Test'
+   00
+   01
+00 **  <- these 2 sectors would be colored/highlighted to represent ownership
+01 ^^
+
+
+Orbit:
+#<stand1> <X> <Y> <array> <symbol> <stand2> <Name>;[<stand1> <X> <Y> <array> <symbol> <stand2> <Name>;]
+<stand1> is whether the planet is 'explored' by the player and should be
+highlighted.
+<X> is x coords.
+<Y> is y coords.
+<array> is the special output array index indicating which array to be
+displayed. Which specific array to be used is determined by the <symbol>
+<symbol> if a 'm' or 'M' then a mirror should be displayed, if it is '*'
+and array > 0 then a nova should be displayed else it is a normal orbit map.
+Also, <symbol> will contain a ship letter if the data here is a ship
+and <stand1> and <stand2> will a positive number if the player owns the ship.
+<stand2> is whether the planet has population of the player on it.
+
+Standard convention is to highlight the symbol if the planet has been
+owned, and highlight the name if the player has colonized the planet.
+(ie, highlight symbol if <stand1> and name if <stand2>)
+
+Example:
+#1 100 100 0 * 1 Sol;1 93 104 0 o 0 Earth;1 90 90 0 D 1 456;
+
+A star (*) named Sol is not undergoing a nova (since array is 0)
+and is located at coords 100,100. The player has 'knowledge' of the
+type (stand1) and 'owns' the star (meaning popn in the system) (stand2).
+Next is a planet Earth (o) located at 93,104 which the player has
+explored (1 for stand1) but does not have popn on (stand2 is 0). The
+array has no meaning here so is 0.
+The last field is a ship (D) located at 90,90 owned by the player
+(stand1 and stand2 are 1). Again, array of 0 has no meaning. And the
+ship is #456 (as specified in the name spot).
+
+------------------------------------------------------------------------
+The other client server protocols follow the | <number> convention
+outlined above.
+
+------------------------------------------------------------------------
+Command name: client_survey
+Response Range: 101-103
+Input formats:
+	client_survey -					(101-103)
+	client_survey minx[:maxx],miny[:maxy]		(102-103)
+
+The - will request ALL sectors. That is, client_survey 0:MAXX,0:MAXY.
+
+Output formats:
+CSP_SURVEY_INTRO format:
+"%c %d %c %d %d %d %s %s %d %d %d %d %d %d %lf %d"
+
+<CSP_CLIENT> <CSP_SURVEY_INTRO> <maxX> <maxY> <star name> <planet name> 
+<res> <fuel> <des> <popn> <max popn> <toxicity> <compat %> <enslaved>
+
+CSP_CLIENT:			#define |
+CSP_SURVEY_INTRO:		#define 101
+maxX:		int		width of planet
+maxY:		int		height of planet
+star name:	word		char * of star name
+planet name:	word		char * of planet name
+res:		int		amt of res on planet
+fuel:		int		amt of fuel on planet
+des:		int		amt of des on planet
+popn:		int		amt of popn on planet
+max popn:	int		amt of max popn for planet
+toxicity:	int		current toxicity of planet
+compat %:	double		% compat with planet
+enslaved:	boolen		is planet enslaved.
+
+CSP_SURVEY_SECTOR format:
+"%c %d %c %d %d %d %c %c %d %d %d %d %d %d %d %d %d %d"
+CSP_CLIENT CSP_SURVEY_SECTOR <x> <y> <sectc> <des> <wasted> <own> <eff> 
+<frt> <mob> <xtal> <res> <civ> <mil> <mpopn>
+
+CSP_CLIENT:			#define |
+CSP_SURVEY_SECTOR:		#define 102
+x:		int		x of sector
+y:		int		y of sector (x,y)
+sectc:		char		type of sector #^*)-o.
+des:		char		server description. could be mil/ship ltr
+wasted:		boolean		is sector wasted.
+own:		int		player#
+eff:		int		eff%
+frt:		int		frt in sector
+mob:		int		mobility of sector
+xtal:		boolean		is sector xtal.		
+res:		int		res in sector
+civ:		int		# civ on sector
+mil:		int		# mil on sector
+max popn:	int		max popn for sector
+
+CSP_SURVEY_END format:
+"%c %d"
+
+CSP_CLIENT:			#define |
+CSP_SURVEY_END:			#define 103
+103 has NO arguments. It is END OF COMMAND (EOC).
+------------------------------------------------------------------------
+Command name:  version
+Response range: 10-11
+Input formats: 
+			version
+Output formats:
+CSP_VERSION_INFO format:
+"%c %d Server Version: %s"
+
+<CSP_CLIENT> <CSP_VERSION_INFO> Server Version: <VERSION>
+CSP_CLIENT:			#define	|
+CSP_VERSION_INFO:		#define	10
+VERSION:			#define	"X.X.XX mm/dd/yy"
+
+CSP_VERSION_OPTIONS format:
+"%c %d Server Options: %s ... %s"
+
+<CSP_CLIENT> <CSP_VERSION_OPTIONS> Server Options: [<OPTION1> <OPTION2>]
+CSP_CLIENT:			#define	|
+CSP_VERSION_INFO:		#define	11
+OPTION1:			see below
+
+
+	Sample code for version:
+
+ void
+ version(int Playernum, int Governor)
+ {
+	char buf[2047];
+
+     sprintf(buf, "%c %d Server Version: %s\n",
+		CSP_CLIENT, CSP_VERSION_INFO, VERSION);
+	notify(Plarnum, Governor, buf)
+	sprintf(buf, "%c %d Server Options:", CSP_CLIENT, CSP_VERSION_OPTIONS);
+
+	/* this is where it determines what options we are compiled with */
+
+ #ifdef AUTOSCRAP
+    strcat(buf, " AUTOSCRAP");
+ #endif
+
+ #ifdef THRESHLOADING
+    strcat(buf, " THRESHLOADING");
+ #endif
+
+    strcat(buf, "\n");
+    notify(Playernum, Governor, buf);
+ }
+
+	Sample output:
+
+ | 10 Server Version: 1.1.4 1/30/93
+ | 11 Server Options: AUTOSCRAP THRESHLOADING
+
+------------------------------------------------------------------------
+Command name:  <none> Update/segment/backup notification
+Response range: 50-56
+Input formats: <none>
+
+Output formats:
+"%c %d %s"
+
+<CSP_CLIENT> <number> <OutputString>
+CSP_CLIENT:			#define	|
+number:				#define	to be one of the following:
+				define CSP_UPDATE_START		50
+				define CSP_UPDATE_END		51
+				define CSP_SEGMENT_START	52
+				define CSP_SEGMENT_END		53
+				define CSP_RESET_START		54
+				define CSP_RESET_END		55
+				define CSP_BACKUP_START		56
+				define CSP_BACKUP_END		57
+OutputString:			Date and time.
+------------------------------------------------------------------------
+Command name: <none> CSP notification upon logging in
+Response range: 10-11
+Send command CSP_LOGIN_COMMAND, the server responds with
+CSP_CLIENT_ON. If the player 'toggles client' and turns it off, a 
+CSP_CLIENT_OFF is generated.
+
+Input formats:
+"%s %d"
+
+<CSP_SERVER> <color>
+CSP_SERVER:			#define "CSP"
+color:				0=off, 1=on
+
+CSP_CLIENT_ON
+Output formats:
+"%c %d %d %d %d"
+
+<CSP_CLIENT> <CSP_CLIENT_ON> <raceid> <govid> <suspended>
+CSP_CLIENT:			#define |
+CSP_CLIENT_ON:			#define 1011
+raceid:				race #
+govid:				gov #
+suspended:			updates/segments in supsended mode. 1=T, 0=F
+
+CSP_CLIENT_OFF
+Output formats:
+"%c %d"		(although currently it responds with "%c %d %d %d" last 2 being raceid and govid)
+CSP_CLIENT:			#define |
+CSP_CLIENT_OFF:			#define 1011
+------------------------------------------------------------------------
+Command name:  <none> Update/segment suspended/resumed notification
+Response range: 58-59
+Input formats: <none>
+
+Output formats:
+"%c %d"
+
+<CSP_CLIENT> <number>
+CSP_CLIENT:			#define	|
+number:				#define	to be one of the following:
+				define CSP_UPDATES_SUSPENDED		58
+				define CSP_UPDATES_RESUMED		59
+
+------------------------------------------------------------------------
+csp.h File
+------------------------------------------------------------------------
+/*
+ * csp.h: Contains the defines for all the Client-Server Protocol (CSP)
+ *        numbers.
+ *
+ * Version 1.6
+ *
+ * Please send any modifications of this file to:
+ *    evank@netcom.com 
+ *    deragon@jethro.nyu.edu
+ *
+ */
+
+
+/* character to be found in column 0 of a CSP output line */
+# define CSP_CLIENT			'|'
+
+/* identifier sent by client to server when sending a command/request */
+# define CSP_SERVER			"CSP"
+
+/*---- Server responses ----*/
+
+/* VERSION */
+# define CSP_VERSION_INFO               10      /* version XX */
+# define CSP_VERSION_OPTIONS            11      /* options set YY */
+
+/* LOGIN */
+# define CSP_CLIENT_ON			30	/* client mode on      */
+# define CSP_CLIENT_OFF			31	/* client mode off     */
+
+/* UPDATE/SEGMENT/RESET */
+
+/* update/segment info */			
+# define CSP_UPDATE_START		50	/* update started */
+# define CSP_UPDATE_END			51	/* update finshed */
+# define CSP_SEGMENT_START		52	/* segment started */
+# define CSP_SEGMENT_END		53	/* segment finished */
+# define CSP_RESET_START		54	/* reset started */
+# define CSP_RESET_END			55	/* reset finished */
+# define CSP_BACKUP_START		56	/* backup started */
+# define CSP_BACKUP_END			57	/* backup finished */
+
+/* experimental and potentially could change */
+# define CSP_UPDATES_SUSPENDED		58	/* updates suspended */
+# define CSP_UPDATES_RESUMED		59	/* updates resumed */
+
+
+/* SURVEY */
+
+/* client_survey command */
+# define CSP_SURVEY_INTRO               101     /* planet info */
+# define CSP_SURVEY_SECTOR              102     /* sector info */
+# define CSP_SURVEY_END                 103     /* end of command(EOC) */
+
+/*---- Client responses ----*/
+# define CSP_LOGIN_COMMAND		1101	/* login command   */
+# define CSP_VERSION_COMMAND		1102	/* version command */
+# define CSP_SURVEY_COMMAND		1103    /* imap command    */
+
+/*---- Error Responses ----*/
+# define CSP_ERR			9900    /* error           */
+# define CSP_ERR_TOO_MANY_ARGS		9901	/* too many args   */
+# define CSP_ERR_TOO_FEW_ARGS		9902    /* too few args    */
+# define CSP_ERR_UNKNOWN_COMMAND	9903    /* unknown command */
+
+/* Below are the defines from ddickey that have not been made
+ * into mainstream yet
+ */
+
+# if 0
+/* Zoom */
+# define CSP_ZOOM			35	/* Zoom, val */
+
+/* Planet Dumps */
+# define CSP_PLANDMP_INTRO		70	/* planet name */
+# define CSP_PLANDMP_CONDITIONS		71	/* conditions */
+# define CSP_PLANDMP_STOCK		72	/* stockpiles */
+# define CSP_PLANDMP_PROD		73	/* production last update */
+# define CSP_PLANDMP_MISC		74	/* rest of stuff */
+# define CSP_PLANDMP_NOEXPL		75	/* planet not explored */
+
+/* General usage */
+# define CSP_STAR_UNEXPL		80	/* star is not explored */
+
+/* ORBIT */
+# define CSP_ORBIT_OUTPUT_INTRO		140	/* orbit parameters */
+# define CSP_ORBIT_STAR_DATA		141	/* star info */
+# define CSP_ORBIT_UNEXP_PL_DATA	142	/* unexplored planet info */
+# define CSP_ORBIT_EXP_PL_DATA		143	/* explored planet info */
+# define CSP_ORBIT_SHIP_DATA		144	/* ship info */
+# define CSP_ORBIT_OUTPUT_END		145	/* end of command(EOC) */
+
+/* RELATION */
+# define CSP_RELATION_INTRO		201	/* race # & name */
+# define CSP_RELATION_DATA		202	/* */
+# define CSP_RELATION_END		203	/* end of command(EOC) */
+
+/* Ship Dumps */
+# define CSP_SHIPDMP_GEN		250	/* General information */
+# define CSP_SHIPDMP_STOCK		251	/* Stock information */
+# define CSP_SHIPDMP_STATUS		252	/* Status information */
+# define CSP_SHIPDMP_WEAPONS		253	/* Weapons information */
+# define CSP_SHIPDMP_FACTORY		254	/* Factory information */
+# define CSP_SHIPDMP_DEST		255	/* Destination information */
+# define CSP_SHIPDMP_PTACT_GEN		256	/* General planet tactical information */
+# define CSP_SHIPDMP_PTACT_PDIST	257	/* Tactical distance between planet's */
+# define CSP_SHIPDMP_STACT_PDIST	258	/* Tactical distance between a ship and planet */
+# define CSP_SHIPDMP_PTACT_INFO		259	/* Tactical information for a ship from a planet */
+# define CSP_SHIPDMP_STACT_INFO		260	/* Tactical information for a ship from a ship */
+# define CSP_SHIPDMP_ORDERS		261	/* Ship orders */
+# define CSP_SHIPDMP_THRESH		262	/* Ship threshloading */
+# define CSP_SHIPDMP_SPECIAL		263	/* Ship specials */
+# define CSP_SHIPDMP_HYPER		264	/* Hyper drive usage */
+# define CSP_SHIPDMP_END		265	/* end of command (EOC) */
+
+/* CSP Range */
+# define CSP_RANGE			301	/* 1st command, last_command */
+
+/* Broadcast/Think/Announce/Shout */
+# define CSP_BROADCAST			302	/* Broadcast */
+# define CSP_ANNOUNCE			303	/* Announce */
+# define CSP_THINK			304	/* Think */
+# define CSP_SHOUT			305	/* Shout */
+# define CSP_EMOTE			305	/* Emote */
+
+# define CSP_MAX_SERVER_COMMAND		1000
+
+/* COMMANDS */
+
+# define CSP_FIRST_COMMAND		1101
+# define CSP_LOGIN_COMMAND		1101	/* login command   */
+# define CSP_VERSION_COMMAND		1102	/* version command */
+# define CSP_SURVEY_COMMAND		1103    /* imap command    */
+# define CSP_RELATION_COMMAND		1104	/* relation command */
+# define CSP_RANGE_COMMAND		1105	/* csp range command */
+# define CSP_ORBIT_COMMAND		1106	/* orbit command */
+# define CSP_ZOOM_COMMAND		1107	/* zoom command */
+# define CSP_PLANDUMP_COMMAND		1108	/* planet dump command */
+# define CSP_SHIPDUMP_COMMAND		1109	/* ship dump command */
+# define CSP_LAST_COMMAND		1109
+
+/* ERRORS */
+
+# define CSP_ERR			9900    /* error           */
+# define CSP_ERR_TOO_MANY_ARGS		9901	/* too many args   */
+# define CSP_ERR_TOO_FEW_ARGS		9902    /* too few args    */
+# define CSP_ERR_UNKNOWN_COMMAND	9903    /* unknown command */
+# define CSP_ERR_NOSUCH_PLAYER		9904	/* no such player  */
+# define CSP_ERR_NOSUCH_PLACE		9905	/* no such place - scope err  */
+
+
+/* Miscellaneous defines to be used as needed: */
+# define RACE_TYPE_UNKNOWN	0
+# define RACE_TYPE_MORPH	1
+# define RACE_TYPE_NORMAL	2
+# define RELAT_UNKNOWN		0
+# define RELAT_ALLIED		1
+# define RELAT_NEUTRAL		2
+# define RELAT_WAR		3
+
+# endif /* keep but not active */

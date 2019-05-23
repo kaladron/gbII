@@ -1,0 +1,11 @@
+
+Okay.. 2.5.3 ----> 
+
+
+	Hopefully full ANSI compliant. Any problems, _please_
+	let me know!
+
+2.5.4
+	Fix some problems and made login cleaner for older
+	servers. Also fixes a problem with scope prompts on
+	older servers.

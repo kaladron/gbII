@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Author: Kari Seppänen (c) 1996 (Kari.Seppanen@hut.fi)
+#
+# Tools for GB
+#
+# $Header: /localdisk2/users/kse/bin/RCS/plows,v 1.2 1996/07/30 10:53:29 kse Exp kse $
+#
+# plows - reads 'repo K' output and prints out commands to load fuel
+#
+# Usage (in gbII - client):
+#				cd /
+#				repo Y | plows > ks
+#				source ks
+#
+
+sed 's/ [ ]*/ /g' | cut -d ' ' -f 9 | uniq | grep "^/" | awk 'NF > 0 {printf("cd %s\nload K f 2\n", $0)}'

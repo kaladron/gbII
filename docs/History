@@ -1,0 +1,567 @@
+
+Early October I started playing Galactic Bloodshed. On the 17th
+of that month, I decided that the client could be made better and
+I started to write the client from scratch so that everything would
+be done in a way I understood. By the 20th (and shortly after my
+GMAT exam) I had finished the main routines, and proceeded to add
+history, recall, and logging. This was released on October 26, 1990
+as version 1.0.1.
+
+
+Oct 28 01:01:55 MDT 1990 (1.0.2)
+	Added GBHOST, GBPORT environmental commands.
+	Reformatted TERMCAP in key.c
+	And restructured command.c to handle the NULL in first/rest better.
+	Compiled on Sun 4.
+
+Oct 29 22:29:18 MST 1990 (1.0.3)
+	Added loadf command.
+	Added shell command
+
+Oct 30 12:25:22 MST 1990 (1.0.4)
+	Added version command. (bored at work)
+	Fix up for non TERMCAPS.
+
+Oct 30 20:25:11 MST 1990 (1.0.5)
+	Used Tribbles' mods and made it SysV compat (?)
+
+Oct 31 23:35:54 MST 1990 (1.0.6)
+	Fixed up the loadf to not print out that bloody info after every
+	broadcast line. Believe me... much nicer.
+	Made logging log recall output.
+
+Nov  1 14:21:05 MST 1990 (1.0.7)
+	Developed the options setting.
+	Put in beep, and map double.
+	Incorporated the inet_addr (ie, # addr) in from HV.
+	Put in map space.
+	Added recall n,m.
+
+Nov  1 22:38:18 MST 1990 (1.0.8)
+	Added:
+		gag <pat>
+		ungag <pat>
+		cleargag
+		listgag
+		loadgag <file>
+		savegag <file>
+
+Nov  3 10:26:01 MST 1990 (1.0.9)
+	Added set history, and set recall.
+	Added the viewing of set parameters.
+	Made macros recursive. (they can call each other)
+
+Nov  3 12:41:21 MST 1990 (1.1.0)
+	Added ^x^y at Feep's request.
+	Cleaned up the code. No more needless warning messages.
+
+Nov  3 14:33:51 MST 1990 (1.1.1)
+	Addded the set map scroll and associated code.
+	Changed loadf to not default to broadcast but to
+	dump to the screen only.
+
+Nov  4 11:27:48 MST 1990 (1.1.2)
+	Changed the socket code to read up to 1 newline.
+	(This will be needed when we start the pre-byte stuff.)
+
+Nov  4 19:57:57 MST 1990 (1.1.3)
+	Added the .gbrc (it is read after connecting to socket,
+	but before user gains keyboard access).
+
+Nov  8 16:01:28 MST 1990 (1.1.4)
+	Put in the crypt and think it works correctly.
+	Cleaned up the crypt a bit. Should work okay.
+	Note: one bug, the way the server handles the broadcast
+	will cause a few weird characters to be interpersed. Not
+	much I can do.
+	Changed the options predefined. and made init_options ().
+	To preset the options.
+
+
+Nov 10 11:29:20 MST 1990 (1.1.5)
+	Added log_me option. Tried to speed up socket. Not worth it.
+	Fixed up a minor problem in logging.
+	Fixed up history/recall. If you changed settings
+	to large N, then to a small N it did not free up memory.
+
+Nov 11 19:03:18 MST 1990 (1.1.6)
+	Added the repeat connect.
+	Made the num_columns not hardcoded but term dependent.
+
+Nov 12 20:10:08 MST 1990 (1.1.7)
+	Added an end notice to shells.
+	Added beep on multiple connects.
+	Added need_erase to help speed output up (thanks to Tell)
+	Changed end notice on shells to only happen when done
+	without the [-ab] flags.
+
+Nov 14 15:37:01 MST 1990 (1.1.8)
+	Removed some of the hard coding of keys.
+	Reworked the num_columns to reflect term type.
+
+Nov 15 14:13:26 MST 1990 (1.1.9)
+	Added prompt ability.
+	Added the prompt and redisplay all options.
+	Changed the do_refresh to handle the redisplay all.
+
+Nov 15 22:20:14 MST 1990 (1.2.0)
+	Added more function.
+	Added set more_num and set more_delay.
+	Fixed a time() problem.
+
+Nov 16 16:40:33 MST 1990 (1.2.1)
+	Some changes to the server (announce) and who
+	caused some funky client stuff. Fixed those.
+	Made the prompt a lot cleaner (displayed when possible).
+	Would you believe I have finals in 4 days. :)
+	Added the connect_delay.
+
+Nov 18 21:04:29 MST 1990 (1.2.2)
+	Incorporated the mods by Tellurians (andreasg@boulder.colorado.edu)
+	prompt should work.
+	A few nit picks about the erasing of lines in redisplay_all.
+	Not heavily tested yet, and I have finals tomorrow. :)
+	Made get_key a switch statement.
+	Changes to erase_key and do_refresh (full).
+
+Nov 22 01:04:19 MST 1990 (1.2.3)
+	Added the kill_socket_output for more.
+	A few more editing things added.
+
+Nov 23 17:36:07 MST 1990 (1.2.4)
+	Finalized the 'analysis' command.
+	editing is still not worked out.
+	Put in the 'put_it' routine to make logging easier.
+	clear command. :)
+	Added the 'c' key to 'more' for clearing.
+
+Nov 27 21:17:24 MST 1990 (1.2.5)
+	Made scrolling map work with inverse.
+
+Nov 28 11:48:37 MST 1990 (1.2.6)
+	Fixed the gagging (it got removed somehow).
+	Made the map/orbit inverse turn off after use.
+
+Nov 28 15:54:16 MST 1990 (1.2.7)
+	Made interal changes to get_gb.
+	Renamed process_buf -> process_key to parallel process_socket.
+	changes in recalls.
+
+
+Nov 28 17:20:43 MST 1990 (1.2.8)
+	Added > for "w" and >> for "a+".
+	Careful tho, you can't put > or >> in any line anywhere now.
+
+Nov 28 23:23:45 MST 1990 (1.2.9)
+	Put in Tellurians mods on the analysis.
+
+Nov 29 15:31:24 MST 1990 (1.3.0)
+	Put in avg mob in the analysis.
+	Fixed source/loadf -d bug.
+	Made logging handle planet maps.
+
+Nov 30 22:28:56 MST 1990 (1.3.1)
+	Put in autologin, password and GBPASSWORD.
+
+Dec 10 20:29:04 MST 1990 (1.3.2) Have a nuklear day D00D!
+	Fixed a minor bug in util.c
+	Fixed map scroll responses.
+	Minor changes to loadf.
+
+
+Dec 11 17:20:13 MST 1990 (1.3.3)
+	Put in on-line client help (helpc for now)
+
+Jan  1 16:59:29 MST 1991 (1.3.4) Be excellent to each other
+	Made a few changes to option.[ch] (namely, extern stuff)
+	Fixed up the 'q' of the more. It was pretty messed up.
+	Changed endprompt checking a bit.
+	Fixed up a macro problem. (I think)
+
+Jan  3 11:05:41 MST 1991 (1.3.5)
+	Removed cur_output and key_null. they were unneeded.
+	Put in the skip_space and skipping leading white space.
+
+Jan  4 22:13:11 MST 1991 (1.3.6)
+	Changed the argc argv stuff. 
+	Added the -w command line flag and supporting code.
+
+Jan  5 14:22:37 MST 1991 (1.3.7)
+	Added sleep command.
+	Few changes to command line stuff.
+
+Jan  5 21:58:06 MST 1991 (1.3.8)
+	made gag match the [encrypted] pattern.
+	added the %b/builtship idea.
+
+Jan  6 11:22:09 MST 1991 (1.3.9)
+	added the queue concept. buggy still.
+
+Jan  6 19:36:44 MST 1991 (1.4.0)
+	Finished queue.
+	Added the -p<password> flag as well.
+	Added the -s login_supression.
+
+Jan  7 12:49:34 MST 1991 (1.4.1)
+	Added the game routines and supporting work
+
+Jan  7 15:07:35 MST 1991 (1.4.2)
+	Added the -i flag for init files. (thanks Feep)
+
+Jan  8 16:54:18 MST 1991 (1.4.3)
+	Checked some stuff in /macro recursion. It works.
+	Changed the crypt. Incompat with previous versions.
+	Added the clear_queue for ctrl-c to stop it.
+
+Jan 10 00:03:45 MST 1991 (2.0.0)
+	Started new term stuff.
+
+Jan 14 14:53:32 MST 1991 (2.0.1)
+	After much frustration I got it to work again.
+	Prompt stuff removed for now.
+
+Jan 19 00:59:54 MST 1991 (2.0.2)
+	Put in the unique read news stuff.
+	Moved the more to fix a few problems. (in process_socket now)
+	Put in the do_status change with last_prompt to reduce overhead
+
+Jan 21 09:36:11 MST 1991 (2.0.3)
+	Fixed the map to work without curses and messing up.
+	Removed MAP_SCROLL
+	Added destroyed sectors (%) to analysis.
+
+Jan 22 14:13:05 MST 1991 (2.0.4)
+	Added server_vers to make it backward compatible.
+	Added - sectors and Mil to analysis.
+	Minor changes to keyboard stuff.
+
+Jan 26 13:46:27 MST 1991 (2.0.5)
+	Fixes for ultrix. Seems to run okay.
+
+Jan 31 13:39:37 MST 1991 (2.0.6)
+	overhauled the cursor stuff, and some input display.
+	Fix for the news stuff.
+	Changed client so it does not drop after losing connection
+
+Feb 10 16:25:23 MST 1991 (2.0.7)
+	Refixed the repeat connect.
+	It works on Ultrix 3.0, and 4.0 so what the heck.
+	Changes in map and term.
+
+Feb 12 13:13:57 MST 1991 (2.0.8)
+	Added the connect command.
+	Changed printf to write. Possibly faster.
+
+Feb 16 10:25:27 MST 1991 (2.0.9)
+	Added scroll_clear.
+	Fixed the new orbit output to include space again.
+
+Feb 17 20:51:51 MST 1991 (2.1.0)
+	Added \n to more. (1 line output)
+	Changed more_num_rows to reflect the status and input window.
+
+Feb 21 00:01:42 MST 1991 (2.1.1)
+	Changed news a bit.
+	Fixed up > and >> to be more flexible and modifiable.
+	Added the fixes for HPUX (mainly strchr stuff)
+
+Feb 25 21:51:01 MST 1991 (2.1.2)
+	Fixed a crypt bug apparently. (released immediately due to necessity)
+
+Feb 27 18:51:39 MST 1991 (2.1.3) Isn't life delicious?
+	Added show_mail, and show_clock for the enthusiast.
+	Added the stat check for mail, to reduce overhead.
+	Removed newlines in all put_it functions.
+	Removed analysis (server supported now).
+	Added the | to mean newline. ; didn't work too well.
+	Mail not shown if none, or error (-1)
+
+Mar 10 01:32:29 MST 1991 (2.1.4)
+	Fixed the queue again. %b/%l now works.
+	Made update slower and a bit more optimized.
+
+Mar 13 14:20:13 MST 1991 (2.1.5)
+	Added the 'f' key to more.
+	Made more affect things such as recall and other commands.
+	(slight problem with end prompting, add it for client functions)
+	Fixed a '0' vs '\0' in key.c
+	Fixed a timev problem in gb.c
+
+Mar 20 17:31:53 MST 1991 (2.1.6)
+	Added the in line editing.
+
+Mar 22 15:56:21 MST 1991 (2.1.7)
+	Added binary search to commands and supporting work.
+	Added set no_log_out.
+	Miscellaneous minor changes. Nothing serious to document.
+	(just clean up code etc etc)
+	Made change to socket_scroll/wrap/map. To use less cursor
+	movement. Should speed up just a bit.
+
+Apr  2 15:50:44 MST 1991 (2.1.8) Food, Folks, and Fun!
+	Made get_key a set of if-else instead of the switch.
+	Made a few commands more concise.
+	Added the convo command and supporting structure.
+
+Apr  3 22:53:05 MST 1991 (2.1.9)
+	Reformatted the helpc stuff. Much nicer looking.
+	Added the second level (set) to the helpc.
+	Added delete under cursor.
+	Added delete word to right.
+	Fixed the insert bug, and added set repeat_connect to Help.
+
+Apr 14 11:28:29 MDT 1991 (2.2.0) Say Happy Birthday Keeshans!
+	Just had to release a version on my bday.
+	Minor changes to the update_status, hopefully stopping
+	my crashes.
+	Adding xmap routines from sander@umich
+
+Apr 18 15:27:47 MDT 1991 (2.2.1)
+	Cleaned up and removed items.
+	Added types.h, got xmap to finally work well.
+	Started support work for client_server_commands.
+	Changed % to $ in macros. (to make it shell like)
+	Got bored, made put_it, msg. (easier to type :) )
+
+Apr 21 12:18:58 MDT 1991 (2.2.2) Fuck me gently with a chainsaw.
+	Added the interactive map and supporting routines.
+	(it works nicely so far)
+	Removed the doing_news and added commstruct for future
+	client actions interacting with the server.
+	Added the timedelay to map sector update.
+	Added hidden logging on command > file (use ! after the > or >>).
+
+
+Apr 23 22:04:00 MDT 1991 (2.2.3)
+	Fixed up Imap just a bit. 
+	More additions to it and added scope level.
+
+Apr 27 22:35:50 MDT 1991 (2.2.4)
+	Added watch4, rwho, and other things.
+	More stuff to Imap. Like launch, land, capture, go, take. etc etc.
+
+Apr 30 10:49:05 MDT 1991 (2.2.5)
+	Added set overwrite_edit_mode and insert_edit_mode.
+
+May  1 23:40:09 MDT 1991 (2.2.6) GB and reality are mutually disjoint!
+	Removed the log_me set
+	Added the wonderful sample files. 
+	Added the $S for current scope expansion to macros.
+	Added k for kancel more from within more ()
+	Made macros allow the > in the declaration (def).
+
+
+May  8 17:18:08 MDT 1991 (2.2.7)
+	Added the ctrl-k delete to end of line. suggested by rabe@stolaf.
+
+Jun  9 16:39:25 MDT 1991 (2.2.8) GB and reality are mutually exclusive!
+	Added the ctrl-t transpose function.
+	Changed scope handling due to server changes.
+	Reworked inet_addr () back into the code and removed the ibuffer stuff
+	from HV. It's all gone.
+
+Jun 12 21:27:52 MDT 1991 (2.2.9)
+	Added echo command.
+	Made quiet macros.
+	Added the + to wrap to prevent spoofing.
+	Fixed the Imap indexing bad sectors and giving weird info.
+	Reworked handling of orbit data so it does not get lost on long
+	universe output.
+
+Jun 19 14:56:59 MDT 1991 (2.3.0)
+	Set up help to handle multiple files. for the Help_server later.
+	Added the variable status_bar.
+	And it's supporting work. :)
+	Added the set status.
+	Put in the $R variable for status_bar.
+
+Jul  6 12:32:29 MDT 1991 (2.3.1)
+	Added the $c to status_bar options.
+	Added status_bar_char and define. default is -.
+	Added the 'range' to news.
+
+Aug 12 00:16:35 MDT 1991 (2.3.2)
+	Added the initial profile.
+	Made Icommands a queued array.
+	Fixed up read news to handle >, >> and hidden logging (!).
+	Fixed up convo 1, and all convo msg_prompts. Looks better
+	Removed % from macros. Told ya I was going too.
+
+Sep  2 13:27:11 MDT 1991 (2.3.3)
+	Minor bug fixes here and there.
+	Work on the pre init things.
+	Added the negative ICOMM values for blocks.
+	Made the moveseg/update notify when done.
+	Made the client reinit the start up icomms after a moveseg/update.
+	Added set notify and set notify_beep.
+	Added the -c flag to loadf.
+	Fixed up more.. except for forward more, but screw it.
+
+Oct  1 10:48:30 MDT 1991 (2.3.4)
+	Put in the xmap changes.
+	Redid the host/port to cur_game.
+	Added flexibility to allow for leader/gov logging in.
+	Worked on making client work with new GB server
+
+Oct 22 23:52:56 MDT 1991 (2.3.5)
+	Some work on getting it to par with new server.
+	Changes in rwho/races stuff. Nothing outrageous. No time.
+	Fixed up the input line speed.
+	Added the -t flag to crypt for think crypts. (who's gonna use this? :) )
+	convo now likes think
+
+Nov 15 17:11:09 PST 1991 (2.3.6)
+	Removed curses base.
+	Added set brackets for our Finnish friends (and other dialects).
+	Reworked the sysV version of echo_off/on ().
+	Made the post command work sorta like mail. Read help file.
+
+
+Nov 25 10:13:51 PST 1991 (2.3.7)
+	Changed way screen size is determined.
+	Added a check for SIGWINCH (window size changes) (Not tested yet).
+	Few fixes reported to me as well.
+	Reworked the set command into a binary search.
+	no_log_out becomes no_logout
+
+Dec  9 21:00:42 PST 1991 (2.3.8)
+	Added proc command to work in shell escape via pipe/fork/exec
+	combo instead of shell. Still needs work.
+	Got rid of that repeat connect 'too many file descriptors open'
+	problem, finally!!!!
+
+Dec 17 17:54:42 MST 1991 (2.3.9)
+	Added the compile time option of RESTRICTED_ACCESS to
+	limit gbII to no saving/loading and shell escape
+
+
+Jan 01 22:56:50 MST 1992 (2.4.0)
+	Added binding and all supporting features.
+	Added the set display thing.
+	Added a few more bind fxns.
+	Started work on a save command. Laid ground work in crypt,bind,game.
+
+Feb 29 02:05:25 MST 1992 (2.4.1)
+	Added the prompt_for stuff, still slightly buggy
+	but working on it.
+	Added the refresh_screen correctly.
+	Added the set display_from_top and supporting work.
+	Added the -c flag to logging. check help file
+	savef is finished and put in completely. check help file.
+	added the set hide_end_prompt. so no more complaining
+	Finished setup shell script for easier compiling
+	Removed loaddef and loadgag. Use savef and loadf.
+	Removed savedef and savegag. Just use savef now.
+	Made most commands, when no argument given, give a list of
+	already defined actions.
+	For command is fully implemented and documented.
+	Moved stuff in key.h back into key.c
+	-b flag for broadcasting in version command.
+	Fixed up some parse stuff including the types.h defines
+	Added in the debug call to make my life easier.
+	Incorporated the new Xmap from sanders.
+	Removed prompt and added in client_prompt, input_prompt and
+	output_prompt for a bit more finesse and control in dealing
+	with various output types.
+
+Mar 18 12:27:25 MST 1992 (2.4.2)
+	-l and -e command line arguments. -l lists games. -e enters
+	client without connecting to game.
+	added popn command
+	added assign stuff.
+	fixed up for loops. takes a loop name now.
+	changed the order of key stuff. added the parse_var and display_var
+	to command struct for special treatment in command.c
+	added non client defined assign variables to the savef function.
+	made it so connect can take host and port information
+	added the loop command. read the help file.
+	fixed up the ctrl-l/refresh_screen stuff
+	changed way the queue stuff works to prevent commands
+	going out while a queue is running. they'll queue up too
+	Added the parsing of args with full syntax of $[{][X][-]Y[-][}]
+	which affects how do_macro () worked, so shortened thatup too.
+
+Jun 15 15:48:22 PDT 1992 (2.4.3)
+	Summer release before I leave
+
+Sep 20 10:15:24 PDT 1992 (2.4.4)
+	Fixed up Imap inverse/geography to work correctly and bound to
+	right keys.
+	Added opt_tech to the client. It is called opttech
+	Added set bell (toggle) to activate and deactive the beeping
+	of bells.
+	Added a crypt_recall binding which will scroll thru displayed crypts
+	in an easy to reuse format.
+
+Nov  6 02:32:07 PST 1992 (2.4.5)
+	Added the file BUGREPORT for reporting of bugs. It asks for
+	people to provide all the information I need to help them best.
+	Fixed up the ${} stuff to handle ${${}} and all formats involved.
+	Made def in alphabetical list, to speed up finding of macros.
+	Got \n and \\n working again.
+	def 1 who ; status $* ; who - /1 > log vs /1 \> log works.
+	ditto for piping
+	Added in $[x-y] for loop'ing to command stuff.
+
+Jan 23 22:45:22 PST 1993 (2.4.6)
+	-total to opttech
+	Added set noclobber
+	Added set bold_communicaton
+	Changed ^gbII_client_special to ^GBCS with Feep
+	Added icomm stuff for 'read' (not news, telegrams)
+
+Jan 28 01:29:46 PST 1993 (2.4.7)
+	Added the help bold/underline format ({{b}}, __u__)
+	Added password prompting with GB+
+
+Feb  4 21:36:18 PST 1993 (2.4.8)
+	Removed GBHOST.
+	Added 'addgame default' option.
+	Fixed the 2 liner edit problem
+	Added set entry_quote and set exit_quote
+	Added set full_screen
+	CSP compliant. :)
+
+Apr 11 17:20:49 PDT 1993 (2.4.9)
+	Fixed up proc's shell'ing to check environ SHELL and pw entry
+	Minor bug fixes all over.
+
+May  5 13:09:36 PDT 1993 (2.5.0)
+	Changed the internal method of reading from socket. From
+	newline oriented to buffered.
+	Redid map/orbit output due to new socket buffering.
+	Fixed up a few minor bugs.
+	Added talk.
+	Added info.
+	Modified quit, and added set quit_all.
+	for loop (n1,n2,n3,n4...) done.
+	Made loadf recognize and load correctly other 'savef' GB init files.
+	Removed arrays.h and incorporated it into map.c with #ifdef
+	Added $pid variable and supporting work
+
+Sep  1 21:53:29 PDT 1993 (2.5.1)
+As long as there is thirst, there is always the real thing.
+	Added set macro_char.
+	Added set slash_commands.
+	Added to actions: -quiet, -notify, -active, -inactive.
+	Added set actions option.
+	Fixed a bug in log.
+	Added the -f command line argument as a fast start - do not read
+	~/.gbrc
+
+Oct 28 19:34:35 PDT 1993 (2.5.2)
+Trick or treat! I want candy (or lightly salted mesos).
+	Fixed up init sequence to not pass commands before init'ed.
+	Made ping command.
+	Added CSP_SCOPE, CSP_KNOWLEDGE and the whole csp.c structure
+
+Nov 18 18:42:27 PST 1993 (2.5.3)
+We gladly feast on those who would subdue us -- Meso Motto
+	Added CSP_EXPLORE, CSP_MAP, CSP_PROFILE, CSP_PING.
+	General clean up of code and full ANSI.
+
+Dec  3 00:42:33 EST 1993 (2.5.4)
+	Fixed up a few problems here and there.
+	Tried to smooth porting to sysV, linux, hpux, etc.
+	Fixed up login to not print CSP ERR on KNOWLEDGE.
+	Fixed scope prompt up for old servers. :-(

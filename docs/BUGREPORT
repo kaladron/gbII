@@ -1,0 +1,42 @@
+BUGREPORT - Created 4/10/93 (again)
+
+Please take the time to fill out the following questions.
+It will facilitate both you and me in finding and solving
+the problem you have. The better the description, the better
+chance we have.
+
+Client Version (version from within the client, or look
+in gb.h).
+
+
+Term Type (vt100, xterm, ansi, adm3a, etc).
+
+
+Machine Type (like Sun, decstation, vax, NeXT, etc).
+
+
+Operating System (like, SunOS4.0.1, Ultrix 4.2, BSD4.3, etc).
+
+
+Describe the problem.
+
+
+
+
+
+
+
+Please list any macros or command sequences that you were doing
+which you feel led to the client's problem.
+
+
+
+
+
+
+
+
+
+
+Thank you for your time in filling out this bug report.
+Please mail this to: evank@netcom.com

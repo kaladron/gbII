@@ -1,0 +1,171 @@
+#
+# sample.macros: contains some sample macros to help new users
+# 		 figure out how to use them
+#
+# Written By Evan D. Koffler <evank@netcom.com>
+#
+# Copyright(c) 1991, 1992
+# For full  copyright information, see the file COPYRIGHT included
+# with this package.
+#
+# The easiest way to create and save macros, is to define macros from
+# within gbII and use the savef command.
+#
+# The first word after the def is the macro name, and each sucessive
+# word are steps associated to the macro.
+# The ; is used within macros to seperate commands. So who;br Hello
+# would do a 'who' command and then broadcast Hello.
+#
+# The $ is used to designate a macro expansion.
+# Macros can take up to 10 arguments numbered 0 thru 9. (accessed via ${0} etc)
+# $* means ALL arguments. 
+# $b means the last ship# you built.
+# $l is last lot number you put up for bid
+# $S is current scope.
+# See helpc variables for more expanders.
+#
+
+# Crypt definition
+# Submitted by: ekoffler@zephyr.cair.du.edu (Evan Koffler)
+# /a Hello world!
+# This will send out the message Hello world! on the crypt channel a.
+# Arguments: $* (message)
+
+def a cr a $*
+
+# Max speed for a ship
+# Submitted by: ekoffler@zephyr.cair.du.edu (Evan Koffler)
+# /maxs 245
+# This will set the speed of ship #245 to the fastest speed it can go.
+# Arguments: ${0} (ship to set)
+
+def maxs ord ${0} speed 9
+
+# Ship info
+# Submitted by: ekoffler@zephyr.cair.du.edu (Evan Koffler)
+# /? V
+# Get the server help on the shiptype V
+# Arguments: $* (ship to get info on)
+
+def ? build ? $*
+
+# This macro will have the [encrypted] messages hidden.
+# Hide any untranslatable crypted messages.
+# /gag
+
+def gag gag *encrypted*
+
+# Allow for untranslatable crypted messages to be seen.
+# /ungag
+
+def ungag ungag *encrypted*
+
+# Buildpod and send on it's way
+# Submitted by: ekoffler@zephyr.cair.du.edu (Evan Koffler)
+# /buildpod 2,5 2 /Far/Away
+# build a pod, load with crew and 2 units of fuel. Order pod
+# at max speed to /Far/Away
+# Arguments: ${0} (sector to build on), ${1} (fuel amount), ${2} (destination)
+
+def buildpod build p ${0};load $b c;load $b f ${1};launch $b;ord $b speed 9;ord $b dest ${2};ord $b on
+
+# Transfer macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /XF 234 f 3 456
+# transfer 3 fuel from #234 to #456
+# Arguments: ${0} (from ship), ${1} (commodity), ${2} (commodity amount),
+# ${3} (to ship)
+ 
+def XF doc ${3} ${0}; lo ${3} ${1} ${2}; undo ${3}
+
+# report warships
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /rep
+
+def rep report SHOXBCDIdf
+
+# Settlement macro for tech races
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /sett 234 6,7
+# land #234 on sector 6,7 and unload 2 settlers
+# Arguments: ${0} (ship to land), ${1} (sector coords)
+
+def sett lau ${0}; lan ${0} ${1}; unlo ${0} c 2
+
+# Atmosphere processor creation macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /a 2,5
+# build an a on sector 2,5. order it on and load some fuel.
+# Arguments: ${0} (sector to build on)
+# Note: In vanilla GB, you always mine as much fuel as res, so if
+# there is enough res to build the a, you should have 30 fuel also.
+# For HAP:
+# def a build a ${0}; loa $b c; ord $b on; loa $b fu 3; ord $b thr f 3
+
+def a build a ${0}; loa $b c; ord $b on; loa $b fu 30
+
+
+# Plow creation macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /K 2,5
+# build a K on sector 2,5. load crew, order it on and load some fuel
+# For HAP:
+# def K build K ${0}; loa $b c; ord $b on; loa $b fu 2; ord $b thre f 2
+
+def K build K ${0}; loa $b c; ord $b on; loa $b fu 2
+
+
+# Terraforming device creation macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /T 2,5
+# build a T on sector 2,5. order it on, load crew and fuel. set speed.
+# Arguments: ${0} (sector to build on)
+
+def T build T ${0}; loa $b c; ord $b on; ord $b sp 9; loa $b fu 3
+
+# Weapon plant creation macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /W 2,5
+# build a W on 2,5. Load with resources, fuel, and crew. And turn on
+# Arguments: ${0} (sector to build on)
+
+def W build W ${0}; loa $b r; loa $b f; loa $b c; ord $b on
+
+# Waste container creation and send-away macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /w 2,5 /Far/Away
+# build a w on sector 2,5. Load with fuel, launch the w, and order
+# it to /Far/Away at maximum speed possible
+# Arguments: ${0} (sector to build on), ${1} (destination)
+
+def w build w ${0}; loa $b f 2; lau $b; ord $b dest ${1}; ord $b sp 9
+
+# Waste cannister send-away macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /ww 248 /Far/Away
+# Ship #248 is an existing ship. Load with fuel, launch and send
+# to /Far/Away at maximum speed.
+# Arguments: ${0} (ship to send), ${1} (destination)
+
+def ww loa ${0} f 2; lau ${0}; ord ${0} dest ${1}; ord ${0} sp 9
+
+# Dome creation macro
+# Submitted by: leonard@mimsy.umd.edu (Leonard Dickens)
+# /Y 2,5
+# build a Y on sector 2,5. Load with crew and res. Turn it on.
+# 16 res yields 80 eff, which added to 16 updates of metab is about plate
+# For HAP:
+# def Y build Y ${0}; loa $b c; order $b on; loa $b res 1; ord $b thr r 1
+# Arguments: ${0} (sector to build on)
+
+def Y build Y ${0}; loa $b c; order $b on; loa $b res 16
+
+# Send a telegram from a location with excess APs
+# Submitted by: jwoolsey@server.gfx.engga.uwo.ca (John J. Woolsey)
+# /send 3 This is a test
+# sends player #3 the message "This is a test" from the location
+# /Star which the user must set prior to using this macro.
+# Require: /Star must be set by the user
+# Arguments: $* (player# and message to send)
+
+def send cd /Star ; send $* ; cd $S

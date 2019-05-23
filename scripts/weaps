@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Author: Kari Seppänen (c) 1996 (Kari.Seppanen@hut.fi)
+#
+# Tools for GB
+#
+# $Header: /localdisk2/users/kse/bin/RCS/weaps,v 1.1 1996/07/30 10:53:29 kse Exp kse $
+#
+# weaps - reads 'repo W' output and prints out commands to load res and fuel
+#
+# Usage (in gbII - client):
+#				cd /
+#				repo W | weaps 50 > ws
+#				source ws
+#
+# Switches:			weaps <amount_of_res_and_fuel_to_load>
+#
+
+sed 's/ [ ]*/ /g' | cut -d ' ' -f 9 | uniq | grep "^/" | awk 'NF > 0 {printf("cd %s\nload W f '$1'\nload W r '$1'\n", $0)}'

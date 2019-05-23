@@ -1,0 +1,13 @@
+Things to do to xmap as of 2/9/93:
+
+Improve scope identification for xorbit.
+
+Ping sectors and planet stats periodically so map doesn't get too out of date.
+
+Add point and click info to xorbit - e.g. click on planet cs's there & maps;
+click on ship gives report/order/fuel/ship.
+
+Add complex move/deploy at planet level. Though could always just be typed
+using input panel.
+
+Improve input window editing. (started 12/92)

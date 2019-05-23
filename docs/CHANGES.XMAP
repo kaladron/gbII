@@ -1,0 +1,82 @@
+Changes by Rich Fitzgerald (fitz@rsj.harvard.edu) to xmap.c version 2.1.0
+by Scott Anderson:
+
+As of 11/7/92:
+
+Added geography option to graph type list.
+
+Removed input window blinking with each keystroke.  Now only updates effects
+of last keystroke.
+
+Added sector data display.
+
+Added option for turning xmap off (e.g. for large gas giants).
+
+Added xorbit, with option to plot items in reverse order and to plot
+    ships only.
+
+Fixed problem with scopes for analysis, survey, and report buttons.
+
+Added scoping to map command - works for planets, not for orbits.  (Required
+modifications to command.h for meshing into gbII 2.4.5)
+
+Added map update support for move and deploy.  Pings origin and destination
+sector if it's an assault to get proper sector stats.
+
+11/09/92
+	Rewrote map_move and modified button_release to allow wrap in x
+	direction.  Modify xmap_deploy to remove 'X' character if no troops
+	left and no ships to show, and show 'X' in new sector if no ships
+	there.  Made 6x13 font explicit in sec_text_gc and all map_win
+	gc's.
+11/10/92
+	Added click and drag zoom to xorbit. Could be cleaned up a bit.
+11/12/92
+	Modified event processing loop, handling of resize, x_is_redraw to
+	reduce screen flicker.  Reorganized buttons.
+11/16/92
+	fixed bug in widget allocation (using sec_win for allocation of all
+	widgets).  Switched hilite_command_in/out to XDrawRectangle since box
+	corners weren't meeting with XDrawLine.  Removed x_is_remap variable
+	and remap_down proc.
+11/18/92
+	cleaned up bottom panel stat display calls.  redraw on panel
+	expose, clear totally for orbit display.  Modified ships button to
+	cycle through showing all/ships only/no ships.
+11/23/92
+	cleaned up GC usage: now only 4, all declared static.  Took GC's out
+	of map_win.  All but but_text_gc use sec_font, so can be used to draw
+	maps and orbits instead of old map_win GC's.  Started work on input
+	editing with positionable cursor.
+11/24/92
+	switched keyboard input handling from keycodes, which are site-
+	dependent, to KeySym, which should be site-independent.  Still do
+	explicit check for inclusive printable ascii, which might not be
+	okay everywhere.
+12/02/92
+	added cursor positioning in input window using mouse.  Cursor handling
+	still a bit kludgy.
+01/26/93	3.1.1
+	began fixing some small bugs in sector updating: now find descriptor
+	character in process_xmap_survey so assaulting enemy sectors with
+	ships will still display ships if successful.  Modified sector_update_
+	info to show stats on destination sector for move/deploy.
+02/05/93	3.2.0
+	made CSP compliant.  got rid of a bunch of unused stuff.  added
+	nova and space mirror arrays to xorbit.
+02/07/93
+	modified button 1 survey request to also issue client_survey to
+	update map.  Removed dependence on map output, using solely
+	client survey, thereby fixing seg fault for Jovian maps (IGNORES
+	toggle highlight, though).
+02/08/93	3.2.2
+	changed orbit to linked list.  Improved orbit scope identification.
+	Now only misses planet orbit and a universal orbit with such a small
+	zoom that only one star is present.
+02/09/93	3.2.3
+	added numerical zoom input: typing number and clicking zoom button
+	zooms in/out the appropriate factor; clicking zoom button with no
+	input reverts to original zoom.
+11/30/93	3.2.4
+	made ANSI-compatible.  Cleaned up some minor details, tried to
+	arrange code more sensibly.  Nova and mirror support removed.

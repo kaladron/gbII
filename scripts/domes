@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Author: Kari Seppänen (c) 1996 (Kari.Seppanen@hut.fi)
+#
+# Tools for GB
+#
+# $Header: /localdisk2/users/kse/bin/RCS/domes,v 1.2 1996/07/30 10:53:29 kse Exp kse $
+#
+# domes - reads 'repo Y' output and prints out commands to load res
+#
+# Usage (in gbII - client):
+#				cd /
+#				repo Y | domes > ys
+#				source ys
+#
+
+sed 's/ [ ]*/ /g' | cut -d ' ' -f 9 | uniq | grep "^/" | awk 'NF > 0 {printf("cd %s\nload Y r 1\n", $0)}'
